@@ -1,8 +1,0 @@
-- [ ] Update `frontend/app/(pages)/booking/page.tsx` UI
-  - [ ] Add step progress/stepper using `currentStep` from booking context
-  - [ ] Improve typography/spacing hierarchy for wizard layout
-  - [ ] Fix coupon UI so “✓ Applied!” only shows when user applies coupon
-  - [ ] Adjust timer copy to avoid misleading “package reserved” implication (keep UI)
-  - [ ] Add basic accessibility improvements (aria-labels for input/textarea/buttons)
-- [ ] Verify visually that stepper updates when moving between steps
-- [ ] Verify coupon applied message behavior

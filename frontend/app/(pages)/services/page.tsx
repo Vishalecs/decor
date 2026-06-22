@@ -26,7 +26,7 @@ import {
 } from 'lucide-react'
 import { getServicesByCategory, searchServices, services } from '@/lib/services'
 
-const heroImage = '/gpt1.png'
+const heroImage = "/images/gpt1.png"
 
 const categoryTiles = [
   {

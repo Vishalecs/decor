@@ -175,7 +175,7 @@ export function HeaderHero() {
                 </div>
               ) : (
                 <Link
-                  href="/services"
+                  href="/booking"
                   className="hidden sm:flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-md transition-all"
                 >
                   Book Now
@@ -210,7 +210,7 @@ export function HeaderHero() {
               ))}
               {!user && (
                 <Link
-                  href="/services"
+                  href="/booking"
                   className="block mt-2 px-4 py-3 rounded-xl bg-[#C9386B] text-white text-sm font-bold text-center hover:bg-[#a8284f] transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -283,7 +283,7 @@ export function HeaderHero() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
-                href="/services"
+                href="/booking"
                 className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-lg transition-all"
               >
                 Book Decoration
@@ -302,7 +302,7 @@ export function HeaderHero() {
           {/* RIGHT: Image — flush to right viewport edge, zero margin/padding */}
           <div className="relative hidden lg:block h-full min-h-[calc(100vh-80px)] w-full overflow-hidden">
             <img
-              src="/gpt.png"
+              src="\images\gpt.png"
               alt="Hero decoration"
               className="absolute inset-x-0 top-0 w-full h-full object-cover object-top transform -translate-y-10"
             />
