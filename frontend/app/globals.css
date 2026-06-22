@@ -1,0 +1,251 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-accent: 'Lora', serif;
+  --font-heading: var(--font-display);
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: light;
+  /* Luxury Pink and Gold Palette */
+  --background: #faf7f5;
+  --foreground: #1a1a1a;
+  --primary: #c1216e;
+  --primary-foreground: #ffffff;
+  --secondary: #d4a574;
+  --secondary-foreground: #ffffff;
+  --accent: #c1216e;
+  --accent-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --muted: #e8e8e8;
+  --muted-foreground: #666666;
+  --destructive: #dc2626;
+  --border: #e8e8e8;
+  --input: #ffffff;
+  --ring: #c1216e;
+  
+  /* Gold accents for decorative elements */
+  --gold-light: #f5e6d3;
+  --gold-accent: #d4a574;
+  --rose-light: #fce4ec;
+  --rose-dark: #a00851;
+  
+  /* Chart colors */
+  --chart-1: #c1216e;
+  --chart-2: #d4a574;
+  --chart-3: #e8b4c8;
+  --chart-4: #f0d9e8;
+  --chart-5: #fce4ec;
+  
+  --radius: 0.625rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #c1216e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #d4a574;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #e8e8e8;
+  --sidebar-ring: #c1216e;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --primary: #e84c89;
+  --primary-foreground: #0f0f0f;
+  --secondary: #ddb892;
+  --secondary-foreground: #0f0f0f;
+  --accent: #e84c89;
+  --accent-foreground: #0f0f0f;
+  --card: #1a1a1a;
+  --card-foreground: #f5f5f5;
+  --popover: #1a1a1a;
+  --popover-foreground: #f5f5f5;
+  --muted: #333333;
+  --muted-foreground: #999999;
+  --destructive: #f87171;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #e84c89;
+  --chart-1: #e84c89;
+  --chart-2: #ddb892;
+  --chart-3: #f0a8c8;
+  --chart-4: #5a2448;
+  --chart-5: #3a1428;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #e84c89;
+  --sidebar-primary-foreground: #0f0f0f;
+  --sidebar-accent: #ddb892;
+  --sidebar-accent-foreground: #0f0f0f;
+  --sidebar-border: #333333;
+  --sidebar-ring: #e84c89;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --background: #0f0f0f;
+    --foreground: #f5f5f5;
+    --primary: #e84c89;
+    --primary-foreground: #0f0f0f;
+    --secondary: #ddb892;
+    --secondary-foreground: #0f0f0f;
+    --accent: #e84c89;
+    --accent-foreground: #0f0f0f;
+    --card: #1a1a1a;
+    --card-foreground: #f5f5f5;
+    --popover: #1a1a1a;
+    --popover-foreground: #f5f5f5;
+    --muted: #333333;
+    --muted-foreground: #999999;
+    --destructive: #f87171;
+    --border: #333333;
+    --input: #1a1a1a;
+    --ring: #e84c89;
+    --chart-1: #e84c89;
+    --chart-2: #ddb892;
+    --chart-3: #f0a8c8;
+    --chart-4: #5a2448;
+    --chart-5: #3a1428;
+    --sidebar: #1a1a1a;
+    --sidebar-foreground: #f5f5f5;
+    --sidebar-primary: #e84c89;
+    --sidebar-primary-foreground: #0f0f0f;
+    --sidebar-accent: #ddb892;
+    --sidebar-accent-foreground: #0f0f0f;
+    --sidebar-border: #333333;
+    --sidebar-ring: #e84c89;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply bg-background font-body text-foreground scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold leading-tight tracking-tight;
+  }
+  
+  h1 {
+    @apply text-5xl md:text-6xl lg:text-7xl;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  p {
+    @apply leading-relaxed text-gray-700 dark:text-gray-300;
+  }
+  
+  /* Links */
+  a {
+    @apply transition-colors duration-200 hover:text-primary;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.5s ease-out;
+  }
+}
