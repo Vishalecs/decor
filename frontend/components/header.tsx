@@ -2,192 +2,152 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Phone, LogOut, User as UserIcon, Search, Sparkles } from 'lucide-react'
+import { Menu, X, Phone, LogOut, User as UserIcon, ArrowRight } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const { user, logout } = useAuth()
 
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Services', href: '/services' },
+    { label: 'Gallery', href: '/gallery' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Category', href: '/category' },
+    { label: 'Contact', href: '/contact' },
+  ]
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-transparent backdrop-blur-md shadow-none max-md:rounded-bl-[1.25rem] max-md:rounded-br-[1.25rem] max-md:bg-[#fff7fa]/95 max-md:shadow-[0_10px_28px_rgba(201,56,107,0.12)]">
+    <header className="relative z-30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex justify-between items-center h-24">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 hover:bg-pink-100 rounded-lg transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+        <div className="flex justify-between items-center h-16 md:h-20">
 
           {/* Logo */}
-          <Link href="/" className="hidden md:flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl shadow-primary/20">
-              D
+          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="w-10 h-10 flex-shrink-0">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                <g transform="translate(20,20)">
+                  {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+                    <ellipse
+                      key={i}
+                      cx="0" cy="-9"
+                      rx="3.5" ry="7"
+                      fill="#C9932A"
+                      transform={`rotate(${angle})`}
+                      opacity="0.9"
+                    />
+                  ))}
+                  <circle cx="0" cy="0" r="5" fill="#C9932A" />
+                  <circle cx="0" cy="0" r="3" fill="#F5D88E" />
+                </g>
+              </svg>
             </div>
-            <div className="hidden sm:block">
-              <p className="font-display text-lg font-bold text-foreground">DECOR</p>
-              <p className="text-xs text-secondary font-medium">We Decor, You Celebrate</p>
+            <div>
+              <p className="font-bold text-[#1a1a1a] text-base tracking-widest leading-none uppercase">DECOR</p>
+              <p className="text-[10px] text-[#C9932A] tracking-widest font-medium uppercase">We Decor, You Celebrate</p>
             </div>
           </Link>
 
-          <Link
-            href="/"
-            className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-primary md:hidden"
-            aria-label="DECOR home"
-          >
-            <Sparkles size={36} className="fill-primary/10" />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground">
-            <Link href="/" className="relative group transition-colors hover:text-primary">
-              Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/services" className="relative group transition-colors hover:text-primary">
-              Services
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/gallery" className="relative group transition-colors hover:text-primary">
-              Gallery
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/category" className="relative group transition-colors hover:text-primary">
-              Category
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/about" className="relative group transition-colors hover:text-primary">
-              About Us
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/contact" className="relative group transition-colors hover:text-primary">
-              Contact
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-7">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-[#333] hover:text-[#C9386B] transition-colors relative group pb-0.5"
+              >
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9386B] group-hover:w-full transition-all duration-300 rounded-full" />
+              </Link>
+            ))}
           </nav>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-4">
-            {/* Phone Button */}
+          {/* Right actions */}
+          <div className="flex items-center gap-2 md:gap-3">
             <a
-              href="tel:+919876543210"
-              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors"
+              href="tel:+91 7460033958"
+              className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full border border-[#C9386B] text-[#C9386B] hover:bg-[#C9386B] hover:text-white transition-all"
               aria-label="Call us"
             >
-              <Phone size={18} />
-              <span className="text-sm font-medium">Call</span>
+              <Phone size={15} />
             </a>
 
-            {/* User Menu or Book Now Button */}
             {user ? (
-              <div className="hidden md:flex items-center gap-2">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors"
-                  aria-label="Dashboard"
-                >
-                  <UserIcon size={18} />
-                  <span className="text-sm font-medium">{user.fullName.split(' ')[0]}</span>
-                </Link>
+              <div className="relative">
                 <button
-                  onClick={logout}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
-                  aria-label="Logout"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#C9386B] text-[#C9386B] hover:bg-[#C9386B] hover:text-white transition-all text-sm font-medium"
                 >
-                  <LogOut size={18} />
-                  <span className="text-sm font-medium">Logout</span>
+                  <UserIcon size={15} />
+                  <span>{user.fullName.split(' ')[0]}</span>
                 </button>
+                {isUserMenuOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 p-2 z-50">
+                    <Link
+                      href="/dashboard"
+                      className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-pink-50 text-[#333] transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={() => { logout(); setIsUserMenuOpen(false) }}
+                      className="w-full text-left px-3 py-2 rounded-lg text-red-500 text-sm font-medium hover:bg-pink-50 flex items-center gap-2 transition-colors"
+                    >
+                      <LogOut size={13} />
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link
-                href="/services"
-                className="hidden md:flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-primary to-primary text-white font-medium hover:shadow-lg hover:scale-105 transition-all"
+                href="/booking"
+                className="hidden sm:flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-md transition-all"
               >
-                BOOK NOW
-                <span className="text-lg">→</span>
+                Book Now
+                <ArrowRight size={14} />
               </Link>
             )}
 
-            <Link
-              href="/services"
-              className="md:hidden flex h-12 w-12 items-center justify-center rounded-full bg-[#ffe7f0] text-primary shadow-sm"
-              aria-label="Search services"
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden p-2 hover:bg-pink-100 rounded-lg transition-colors"
+              aria-label="Toggle menu"
             >
-              <Search size={22} />
-            </Link>
+              {isMenuOpen ? <X size={20} className="text-[#333]" /> : <Menu size={20} className="text-[#333]" />}
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden pb-4 space-y-3 animate-slide-down">
-            <Link 
-              href="/" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              Home
-            </Link>
-            <Link 
-              href="/services" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              Services
-            </Link>
-            <Link 
-              href="/gallery" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              Gallery
-            </Link>
-            <Link 
-              href="/category" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              Category
-            </Link>
-            <Link 
-              href="/about" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              About Us
-            </Link>
-            <Link 
-              href="/contact" 
-              className="block px-4 py-2 rounded-lg hover:bg-muted text-foreground font-medium"
-            >
-              Contact
-            </Link>
-            {user ? (
-              <>
-                <Link 
-                  href="/dashboard" 
-                  className="block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-primary text-white font-medium text-center"
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={() => {
-                    logout()
-                    setIsMenuOpen(false)
-                  }}
-                  className="block w-full px-4 py-2 rounded-lg hover:bg-muted text-red-600 font-medium text-left"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link 
-                href="/services" 
-                className="block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-primary text-white font-medium text-center"
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden border-t border-pink-100 bg-white/95 backdrop-blur-sm shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-2.5 rounded-xl hover:bg-pink-50 text-sm font-medium text-[#333] transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
-                BOOK NOW
+                {item.label}
+              </Link>
+            ))}
+            {!user && (
+              <Link
+                href="/booking"
+                className="block mt-2 px-4 py-3 rounded-xl bg-[#C9386B] text-white text-sm font-bold text-center hover:bg-[#a8284f] transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Book Now →
               </Link>
             )}
-          </nav>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

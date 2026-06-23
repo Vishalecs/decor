@@ -26,7 +26,7 @@ import {
 } from 'lucide-react'
 import { getServicesByCategory, searchServices, services } from '@/lib/services'
 
-const heroImage = "/images/gpt1.png"
+const heroImage = "/images/services.png"
 
 const categoryTiles = [
   {
@@ -95,6 +95,8 @@ const categoryTiles = [
   },
 ]
 
+const avatarSeeds = [12, 33, 47, 8]
+
 const trustItems = [
   {
     icon: ShieldCheck,
@@ -145,92 +147,129 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-[#fffdfd] text-[#111827]">
-      <main className="pb-16 pt-20">
-        <section className="relative overflow-hidden border-b border-pink-50 bg-[#fff6fa]">
-          <div className="absolute inset-y-0 right-0 hidden w-[56%] lg:block">
-            <img src={heroImage} alt="Premium luxury event decoration setup" className="h-full w-full object-cover" />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.98) 30%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.45) 60%, rgba(255,255,255,0) 100%)',
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+      <main className="pb-16 pt-0">
+        <section className="relative w-full overflow-hidden bg-[#FDF0F3]">
+          {/* Decorative floral SVG - bottom left */}
+          <div className="absolute bottom-0 left-0 h-56 w-56 opacity-60 pointer-events-none z-0 select-none">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="180" rx="30" ry="60" fill="#f9c6d0" transform="rotate(-30 60 180)" />
+              <ellipse cx="90" cy="170" rx="25" ry="50" fill="#f5aab9" transform="rotate(10 90 170)" />
+              <ellipse cx="40" cy="160" rx="20" ry="45" fill="#fbd5dc" transform="rotate(-50 40 160)" />
+              <path d="M70 190 Q80 120 110 80" stroke="#d4857a" strokeWidth="2" fill="none" />
+              <path d="M55 185 Q50 130 30 90" stroke="#d4857a" strokeWidth="1.5" fill="none" />
+              <ellipse cx="25" cy="145" rx="16" ry="35" fill="#f9c6d0" transform="rotate(-60 25 145)" />
+              <ellipse cx="115" cy="85" rx="12" ry="25" fill="#f5aab9" transform="rotate(15 115 85)" />
+            </svg>
           </div>
 
-          <div className="mx-auto grid min-h-[365px] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
-            <div className="relative z-10 max-w-xl">
-              <p className="text-sm font-extrabold uppercase tracking-normal text-[#f7257d]">Our Services</p>
-              <h1 className="mt-4 font-sans text-4xl font-extrabold leading-[1.12] tracking-normal text-[#111827] sm:text-5xl lg:text-[3.45rem]">
-                Beautiful Setup
-                <span className="block">
-                  For <span className="text-[#f7257d]">Every Moment</span>
+          {/* Decorative dots - top right area */}
+          <div className="absolute top-10 right-8 opacity-30 pointer-events-none z-0 select-none">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              {Array.from({ length: 6 }).map((_, row) =>
+                Array.from({ length: 6 }).map((_, col) => (
+                  <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2.5" fill="#c8637a" />
+                ))
+              )}
+            </svg>
+          </div>
+
+          <div className="grid lg:grid-cols-[40%_60%] items-center">
+            {/* LEFT: Text Content */}
+            <div
+              className="relative z-10 py-12 pr-8 space-y-6"
+              style={{ paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2))' }}
+            >
+              <p className="flex items-center gap-2 text-xs font-semibold text-[#C9386B] uppercase tracking-widest">
+                <span className="text-[#C9932A]">✦</span>
+                Your Celebration, Our Passion
+                <span className="text-[#C9932A]">✦</span>
+              </p>
+
+              <h1 className="font-sans text-[2.6rem] md:text-[3.1rem] lg:text-[3.45rem] font-bold leading-[1.08] text-[#1a0a0e]">
+                <span className="block relative pb-2">
+                  Beautiful Setup
+                  <span className="absolute left-0 bottom-0 h-1 w-10 rounded-full bg-gradient-to-r from-[#C9386B] to-[#F2A4C0] opacity-85" />
+                </span>
+                <span className="block relative pb-2 text-[#C9386B]">
+                  For Every Moment
+                  <span className="absolute left-0 bottom-0 h-1 w-16 rounded-full bg-gradient-to-r from-[#C9386B] to-[#D18C9D] opacity-85" />
                 </span>
               </h1>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#566174]">
+
+              <p className="max-w-md text-[#555] text-base md:text-[17px] leading-relaxed">
                 From birthdays to weddings, we create unforgettable experiences tailored just for you.
               </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Link
+                  href="/booking"
+                  className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-lg transition-all"
+                >
+                  Plan Your Event
+                  <ChevronRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="#services-list"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-[#C9932A] text-[#C9932A] text-sm font-bold hover:bg-[#C9932A]/10 transition-all"
+                >
+                  <Grid2X2 size={15} />
+                  Explore Services
+                </Link>
+              </div>
+
+              <div className="flex flex-col gap-2.5 rounded-xl border border-pink-100 bg-white/70 p-3 backdrop-blur-sm sm:flex-row sm:items-center sm:gap-4">
+                <div>
+                  <p className="text-xs text-gray-700">
+                    Trusted by <span className="font-extrabold text-[#C9386B]">500+</span> Happy Clients
+                  </p>
+                  <div className="mt-1.5 flex items-center -space-x-2">
+                    {avatarSeeds.map((seed) => (
+                      <img
+                        key={seed}
+                        src={`https://i.pravatar.cc/64?img=${seed}`}
+                        alt="Happy client"
+                        className="h-6 w-6 rounded-full border-2 border-white object-cover"
+                      />
+                    ))}
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#C9386B] text-[8px] font-extrabold text-white">
+                      +95
+                    </span>
+                  </div>
+                </div>
+
+                <span className="hidden h-8 w-px bg-pink-100 sm:block" />
+
+                <div>
+                  <div className="flex items-center gap-1">
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, index) => (
+                        <Star key={index} size={13} className="fill-[#C9932A] text-[#C9932A]" />
+                      ))}
+                    </div>
+                    <span className="text-xs font-extrabold text-gray-950">4.8/5</span>
+                  </div>
+                  <p className="mt-0.5 text-[10px] text-gray-500">Based on 240+ Reviews</p>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT: Image — 60% space, responsive, full image visible without cropping */}
+            <div className="relative block w-full overflow-hidden h-[240px] sm:h-[340px] md:h-[460px] lg:h-full lg:min-h-[600px]">
+              <img
+                src={heroImage}
+                alt="Premium luxury event decoration setup"
+                className="absolute inset-0 h-full w-full object-contain object-center"
+              />
             </div>
           </div>
         </section>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <section className="relative z-20 -mt-12 rounded-2xl border border-pink-100 bg-white p-5 shadow-[0_18px_55px_rgba(247,37,125,0.14)] lg:mx-10">
-            <div className="grid gap-4 lg:grid-cols-[1.25fr_0.85fr_0.85fr_auto]">
-              <label className="relative block">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#111827]" size={22} />
-                <input
-                  type="text"
-                  placeholder="Search for services..."
-                  value={searchQuery}
-                  onChange={(event) => {
-                    setSearchQuery(event.target.value)
-                    setSelectedCategory('all')
-                  }}
-                  className="h-14 w-full rounded-lg border border-gray-200 bg-white pl-12 pr-4 text-sm text-gray-600 outline-none transition focus:border-[#f7257d] focus:ring-4 focus:ring-pink-100"
-                />
-              </label>
-
-              <label className="relative flex h-14 items-center rounded-lg border border-gray-200 bg-white px-5 text-sm font-extrabold text-gray-800">
-                <Grid2X2 size={19} className="mr-3 text-[#111827]" />
-                <select
-                  value={selectedCategory}
-                  onChange={(event) => {
-                    setSelectedCategory(event.target.value)
-                    setSearchQuery('')
-                  }}
-                  className="w-full appearance-none bg-transparent pr-8 outline-none"
-                >
-                  <option value="all">All Categories</option>
-                  <option value="wedding">Wedding</option>
-                  <option value="birthday">Birthday</option>
-                  <option value="anniversary">Anniversary</option>
-                  <option value="corporate">Corporate</option>
-                  <option value="seasonal">Seasonal</option>
-                  <option value="custom">Custom Events</option>
-                </select>
-                <ChevronDown size={16} className="pointer-events-none absolute right-4 text-gray-500" />
-              </label>
-
-              <label className="relative flex h-14 items-center rounded-lg border border-gray-200 bg-white px-5 text-sm font-extrabold text-gray-800">
-                <MapPin size={19} className="mr-3 text-[#111827]" />
-                <select className="w-full appearance-none bg-transparent pr-8 outline-none" defaultValue="all">
-                  <option value="all">All Locations</option>
-                  <option value="delhi">Delhi NCR</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="bangalore">Bangalore</option>
-                </select>
-                <ChevronDown size={16} className="pointer-events-none absolute right-4 text-gray-500" />
-              </label>
-
-              <button className="h-14 rounded-lg bg-[#f7257d] px-9 text-sm font-extrabold text-white shadow-lg shadow-pink-200 transition hover:bg-[#dd1469]">
-                Search
-              </button>
+          <section className="mt-12">
+            <div className="mb-5 flex items-center gap-3">
+              <span className="h-6 w-1 rounded-full bg-[#f7257d]" />
+              <h2 className="font-sans text-xl font-extrabold tracking-normal text-gray-950">Browse by Category</h2>
             </div>
-          </section>
-
-          <section className="mt-8">
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
               {categoryTiles.map(({ id, label, Icon, gradient, glow, ring }) => {
                 const active = selectedCategory === id && !searchQuery
@@ -374,7 +413,7 @@ export default function ServicesPage() {
                           </p>
                         </div>
                         <span className="rounded-md border border-[#f7257d] px-4 py-2 text-xs font-extrabold text-[#f7257d] transition group-hover:bg-[#f7257d] group-hover:text-white">
-                          Book Now
+                          Know More
                         </span>
                       </div>
                     </div>

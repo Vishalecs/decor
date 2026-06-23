@@ -338,7 +338,7 @@ export function Footer() {
             </h4>
             <div className="space-y-4">
               <a
-                href="tel:+917408882629"
+                href="tel:+917460033958"
                 className="flex gap-3 items-start transition-transform duration-200"
                 style={{ textDecoration: 'none' }}
                 onMouseEnter={e => ((e.currentTarget as HTMLElement).style.transform = 'translateX(2px)')}
@@ -351,7 +351,7 @@ export function Footer() {
                   <Phone size={14} style={{ color: '#d946ef' }} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">+91 74088 82629</p>
+                  <p className="text-sm font-medium text-white">+91 7460033958</p>
                   <p className="text-xs mt-0.5" style={{ color: 'rgba(200,185,230,0.45)' }}>Mon–Sun, 9am–9pm</p>
                 </div>
               </a>

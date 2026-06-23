@@ -5,12 +5,15 @@ import {
   Baby,
   BriefcaseBusiness,
   Cake,
+  ChevronRight,
   Flower2,
   Gift,
+  Grid2X2,
   Heart,
   Home,
   PartyPopper,
   Sparkles,
+  Star,
 } from 'lucide-react'
 import { Footer } from '@/components/footer'
 import { decorCategories } from '@/lib/category-packages'
@@ -72,44 +75,131 @@ const categoryMeta = {
   },
 }
 
+const avatarSeeds = [12, 33, 47, 8]
+
 export default function CategoryPage() {
   return (
     <div className="category-page min-h-screen overflow-hidden bg-[#fff8fb] text-[#17171f]">
       <main className="relative">
-        <section className="relative overflow-hidden border-b border-pink-50 bg-[#fff6fa] pt-20">
-          <div className="absolute inset-y-0 right-0 hidden w-[56%] lg:block">
-            <img 
-              src="/gpt2.png" 
-              alt="Luxury event decoration categories" 
-              className="h-full w-full object-cover" 
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.98) 30%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.45) 60%, rgba(255,255,255,0) 100%)',
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+        {/* Hero Section */}
+        <section className="relative w-full overflow-hidden bg-[#FDF0F3]">
+          {/* Decorative floral SVG - bottom left */}
+          <div className="absolute bottom-0 left-0 h-56 w-56 opacity-60 pointer-events-none z-0 select-none">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="180" rx="30" ry="60" fill="#f9c6d0" transform="rotate(-30 60 180)" />
+              <ellipse cx="90" cy="170" rx="25" ry="50" fill="#f5aab9" transform="rotate(10 90 170)" />
+              <ellipse cx="40" cy="160" rx="20" ry="45" fill="#fbd5dc" transform="rotate(-50 40 160)" />
+              <path d="M70 190 Q80 120 110 80" stroke="#d4857a" strokeWidth="2" fill="none" />
+              <path d="M55 185 Q50 130 30 90" stroke="#d4857a" strokeWidth="1.5" fill="none" />
+              <ellipse cx="25" cy="145" rx="16" ry="35" fill="#f9c6d0" transform="rotate(-60 25 145)" />
+              <ellipse cx="115" cy="85" rx="12" ry="25" fill="#f5aab9" transform="rotate(15 115 85)" />
+            </svg>
           </div>
 
-          <div className="mx-auto grid min-h-[365px] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
-            <div className="relative z-10 max-w-xl">
-              <p className="text-sm font-extrabold uppercase tracking-normal text-[#f7257d]">Explore Categories</p>
-              <h1 className="mt-4 font-sans text-4xl font-extrabold leading-[1.12] tracking-normal text-[#111827] sm:text-5xl lg:text-[3.45rem]">
-                Choose the Perfect
-                <span className="block">
-                  <span className="text-[#f7257d]">Decor</span> Category
+          {/* Decorative dots - top right area */}
+          <div className="absolute top-10 right-8 opacity-30 pointer-events-none z-0 select-none">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              {Array.from({ length: 6 }).map((_, row) =>
+                Array.from({ length: 6 }).map((_, col) => (
+                  <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2.5" fill="#c8637a" />
+                ))
+              )}
+            </svg>
+          </div>
+
+          {/* ✅ Grid updated: 40%/60% split like services page */}
+          <div className="grid lg:grid-cols-[40%_60%] items-center">
+            {/* LEFT: Text Content */}
+            <div
+              className="relative z-10 py-12 pr-8 space-y-6"
+              style={{ paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2))' }}
+            >
+              <p className="flex items-center gap-2 text-xs font-semibold text-[#C9386B] uppercase tracking-widest">
+                <span className="text-[#C9932A]">✦</span>
+                Explore Categories
+                <span className="text-[#C9932A]">✦</span>
+              </p>
+
+              <h1 className="font-sans text-[2.6rem] md:text-[3.1rem] lg:text-[3.45rem] font-bold leading-[1.08] text-[#1a0a0e]">
+                <span className="block relative pb-2">
+                  Choose the Perfect
+                  <span className="absolute left-0 bottom-0 h-1 w-10 rounded-full bg-gradient-to-r from-[#C9386B] to-[#F2A4C0] opacity-85" />
+                </span>
+                <span className="block relative pb-2 text-[#C9386B]">
+                  Decor Category
+                  <span className="absolute left-0 bottom-0 h-1 w-16 rounded-full bg-gradient-to-r from-[#C9386B] to-[#D18C9D] opacity-85" />
                 </span>
               </h1>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#566174]">
+
+              <p className="max-w-md text-[#555] text-base md:text-[17px] leading-relaxed">
                 Start with your celebration type, explore relevant packages, view details, and book the service that fits your event.
               </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Link
+                  href="#categories-grid"
+                  className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-lg transition-all"
+                >
+                  Browse Categories
+                  <ChevronRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/booking"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-[#C9932A] text-[#C9932A] text-sm font-bold hover:bg-[#C9932A]/10 transition-all"
+                >
+                  <Grid2X2 size={15} />
+                  Plan Your Event
+                </Link>
+              </div>
+
+              <div className="flex flex-col gap-4 rounded-2xl border border-pink-100 bg-white/70 p-4 backdrop-blur-sm sm:flex-row sm:items-center sm:gap-6">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Trusted by <span className="font-extrabold text-[#C9386B]">500+</span> Happy Clients
+                  </p>
+                  <div className="mt-2 flex items-center -space-x-2">
+                    {avatarSeeds.map((seed) => (
+                      <img
+                        key={seed}
+                        src={`https://i.pravatar.cc/64?img=${seed}`}
+                        alt="Happy client"
+                        className="h-8 w-8 rounded-full border-2 border-white object-cover"
+                      />
+                    ))}
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#C9386B] text-[10px] font-extrabold text-white">
+                      +95
+                    </span>
+                  </div>
+                </div>
+
+                <span className="hidden h-10 w-px bg-pink-100 sm:block" />
+
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, index) => (
+                        <Star key={index} size={16} className="fill-[#C9932A] text-[#C9932A]" />
+                      ))}
+                    </div>
+                    <span className="text-sm font-extrabold text-gray-950">4.8/5</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Based on 240+ Reviews</p>
+                </div>
+              </div>
+            </div>
+
+            {/* ✅ RIGHT: Responsive image — same as services page */}
+            <div className="relative block w-full overflow-hidden h-[240px] sm:h-[340px] md:h-[460px] lg:h-full lg:min-h-[600px]">
+              <img
+                src="/images/category.png"
+                alt="Luxury event decoration categories"
+                className="absolute inset-0 h-full w-full object-contain object-center"
+              />
             </div>
           </div>
         </section>
 
-        <section className="relative px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+        <section id="categories-grid" className="relative px-4 pb-16 pt-12 sm:px-6 lg:px-8">
           <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-[#ff4d8d]/20 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-[#c084fc]/25 blur-3xl" />
 

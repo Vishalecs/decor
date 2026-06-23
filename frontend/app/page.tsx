@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
 import { HeaderHero } from '@/components/header-hero'
 import { FeaturedServices } from '@/components/featured-services'
-import { Testimonials } from '@/components/testimonials'
 import { CTASection } from '@/components/cta-section'
 import { FAQSection } from '@/components/faq-section'
+import { Testimonials } from '@/components/testimonial'
 import { Footer } from '@/components/footer'
 import { organizationSchema } from '@/lib/schema'
 import BalloonAnimation from '@/components/balloon-animation'
@@ -27,7 +27,7 @@ export default function Page() {
       <HeaderHero />
       <div className="bg-background">
         <FeaturedServices />
-        <Testimonials />
+        <Testimonials/>
         <CTASection />
         <FAQSection />
       </div>

@@ -37,22 +37,22 @@ export function HeaderHero() {
   const categories = [
     {
       label: 'Wedding',
-      href: '/category/wedding',
+      href: '/category/wedding-decoration',
       icon: '💍',
     },
     {
       label: 'Birthday',
-      href: '/category/birthday',
+      href: '/category/birthday-decoration',
       icon: '🎂',
     },
     {
       label: 'Anniversary',
-      href: '/category/anniversary',
+      href: '/category/anniversary-decoration',
       icon: '❤️',
     },
     {
       label: 'Custom',
-      href: '/category/custom',
+      href: '/category',
       icon: '✨',
     },
   ]
@@ -139,7 +139,7 @@ export function HeaderHero() {
             {/* Right actions */}
             <div className="flex items-center gap-2 md:gap-3">
               <a
-                href="tel:+919876543210"
+                href="tel:+91 7460033958"
                 className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full border border-[#C9386B] text-[#C9386B] hover:bg-[#C9386B] hover:text-white transition-all"
                 aria-label="Call us"
               >
@@ -175,7 +175,7 @@ export function HeaderHero() {
                 </div>
               ) : (
                 <Link
-                  href="/booking"
+                  href="/category"
                   className="hidden sm:flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-md transition-all"
                 >
                   Book Now
@@ -282,8 +282,8 @@ export function HeaderHero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Link
-                href="/booking"
+                <Link
+                  href="/category"
                 className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#C9386B] text-white text-sm font-bold hover:bg-[#a8284f] hover:shadow-lg transition-all"
               >
                 Book Decoration

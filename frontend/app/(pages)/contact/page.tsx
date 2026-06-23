@@ -10,37 +10,69 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-[#fffdfd] text-foreground">
-      <main className="pb-20 pt-20">
+      <main className="pb-20 pt-0">
         {/* Hero Section */}
-        <section className="relative overflow-hidden border-b border-pink-50 bg-[#fff6fa]">
-          <div className="absolute inset-y-0 right-0 hidden w-[56%] lg:block">
-            <img 
-              src="/gpt1.png" 
-              alt="Contact DECOR event decoration" 
-              className="h-full w-full object-cover" 
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.98) 30%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.45) 60%, rgba(255,255,255,0) 100%)',
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+        <section className="relative w-full overflow-hidden bg-[#FDF0F3]">
+          {/* Decorative floral SVG - bottom left */}
+          <div className="absolute bottom-0 left-0 h-56 w-56 opacity-60 pointer-events-none z-0 select-none">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="180" rx="30" ry="60" fill="#f9c6d0" transform="rotate(-30 60 180)" />
+              <ellipse cx="90" cy="170" rx="25" ry="50" fill="#f5aab9" transform="rotate(10 90 170)" />
+              <ellipse cx="40" cy="160" rx="20" ry="45" fill="#fbd5dc" transform="rotate(-50 40 160)" />
+              <path d="M70 190 Q80 120 110 80" stroke="#d4857a" strokeWidth="2" fill="none" />
+              <path d="M55 185 Q50 130 30 90" stroke="#d4857a" strokeWidth="1.5" fill="none" />
+              <ellipse cx="25" cy="145" rx="16" ry="35" fill="#f9c6d0" transform="rotate(-60 25 145)" />
+              <ellipse cx="115" cy="85" rx="12" ry="25" fill="#f5aab9" transform="rotate(15 115 85)" />
+            </svg>
           </div>
 
-          <div className="mx-auto grid min-h-[365px] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
-            <div className="relative z-10 max-w-xl">
-              <p className="text-sm font-extrabold uppercase tracking-normal text-[#f7257d]">Contact Us</p>
-              <h1 className="mt-4 font-sans text-4xl font-extrabold leading-[1.12] tracking-normal text-[#111827] sm:text-5xl lg:text-[3.45rem]">
-                Let's Plan Your
-                <span className="block">
-                  <span className="text-[#f7257d]">Perfect</span> Event
+          {/* Decorative dots - top right area */}
+          <div className="absolute top-10 right-8 opacity-30 pointer-events-none z-0 select-none">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              {Array.from({ length: 6 }).map((_, row) =>
+                Array.from({ length: 6 }).map((_, col) => (
+                  <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2.5" fill="#c8637a" />
+                ))
+              )}
+            </svg>
+          </div>
+
+          {/* ✅ Grid updated: 40%/60% split like services page */}
+          <div className="grid lg:grid-cols-[40%_60%] items-center">
+            {/* LEFT: Text Content */}
+            <div
+              className="relative z-10 py-12 pr-8 space-y-6"
+              style={{ paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2))' }}
+            >
+              <p className="flex items-center gap-2 text-xs font-semibold text-[#C9386B] uppercase tracking-widest">
+                <span className="text-[#C9932A]">✦</span>
+                Contact Us
+                <span className="text-[#C9932A]">✦</span>
+              </p>
+
+              <h1 className="font-sans text-[2.6rem] md:text-[3.1rem] lg:text-[3.45rem] font-bold leading-[1.08] text-[#1a0a0e]">
+                <span className="block relative pb-2">
+                  Let's Plan Your
+                  <span className="absolute left-0 bottom-0 h-1 w-10 rounded-full bg-gradient-to-r from-[#C9386B] to-[#F2A4C0] opacity-85" />
+                </span>
+                <span className="block relative pb-2 text-[#C9386B]">
+                  Perfect Event
+                  <span className="absolute left-0 bottom-0 h-1 w-16 rounded-full bg-gradient-to-r from-[#C9386B] to-[#D18C9D] opacity-85" />
                 </span>
               </h1>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#566174]">
+
+              <p className="max-w-md text-[#555] text-base md:text-[17px] leading-relaxed">
                 Reach out to DECOR for a consultation, pricing details, or to discuss your decoration requirements. We're here to make your celebration truly special.
               </p>
+            </div>
+
+            {/* ✅ RIGHT: Responsive image — same as services page */}
+            <div className="relative block w-full overflow-hidden h-[240px] sm:h-[340px] md:h-[460px] lg:h-full lg:min-h-[600px]">
+              <img
+                src="/images/contact.png"
+                alt="Contact DECOR event decoration"
+                className="absolute inset-0 h-full w-full object-contain object-center"
+              />
             </div>
           </div>
         </section>

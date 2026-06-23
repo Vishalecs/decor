@@ -157,9 +157,22 @@ export default function ServiceDetailPage() {
               </div>
 
               {/* Description */}
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                {service.longDescription}
-              </p>
+              <div className="mb-8">
+                <h2 className="text-2xl font-display font-bold mb-4">About This Service</h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {service.longDescription}
+                </p>
+              </div>
+
+              {/* Why Choose Us */}
+              <div className="mb-8 p-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/10">
+                <h3 className="text-xl font-display font-bold mb-4">Why Choose Our {service.name}?</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  We bring years of expertise and creativity to every event. Our dedicated team ensures 
+                  flawless execution, using only premium materials and innovative designs. With hundreds 
+                  of successful events and satisfied clients, we guarantee an experience that exceeds your expectations.
+                </p>
+              </div>
 
               {/* Key Details */}
               <div className="flex items-stretch justify-between mb-8 p-6 bg-gray-50 rounded-2xl divide-x divide-gray-200">
@@ -176,13 +189,13 @@ export default function ServiceDetailPage() {
                 <div className="flex-1 flex flex-col items-center text-center px-2">
                   <MapPin size={22} className="text-primary mb-2" />
                   <p className="text-[11px] uppercase tracking-wide text-gray-500 mb-1">Coverage</p>
-                  <p className="font-bold text-sm">Within City</p>
+                  <p className="font-bold Thomasm-bold text-sm">Within City</p>
                 </div>
               </div>
 
               {/* Features */}
               <div className="mb-8">
-                <h3 className="text-xl font-display font-bold mb-4">What&apos;s Included</h3>
+                <h3 className="text-xl font-display font-bold mb-4">Service Highlights</h3>
                 <ul className="space-y-3">
                   {service.features.map((feature: string, index: number) => (
                     <li key={index} className="flex items-start gap-3">
@@ -193,6 +206,41 @@ export default function ServiceDetailPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* Service Details */}
+              <div className="mb-8 p-6 bg-gray-50 rounded-2xl">
+                <h3 className="text-xl font-display font-bold mb-4">Service Details</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} className="text-primary" />
+                    <div>
+                      <p className="text-sm text-gray-500">Setup Time</p>
+                      <p className="font-semibold">{service.duration}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Users size={18} className="text-primary" />
+                    <div>
+                      <p className="text-sm text-gray-500">Team Members</p>
+                      <p className="font-semibold">{service.teamSize}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MapPin size={18} className="text-primary" />
+                    <div>
+                      <p className="text-sm text-gray-500">Service Area</p>
+                      <p className="font-semibold">Within City</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Star size={18} className="text-primary" />
+                    <div>
+                      <p className="text-sm text-gray-500">Rating</p>
+                      <p className="font-semibold">{service.rating} / 5</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Price & CTA */}
@@ -218,6 +266,22 @@ export default function ServiceDetailPage() {
                       Get Quote
                     </button>
                   </div>
+                </div>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="mb-6 grid grid-cols-3 gap-3">
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">500+</p>
+                  <p className="text-xs text-gray-600">Events Done</p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">4.9</p>
+                  <p className="text-xs text-gray-600">Avg Rating</p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">100%</p>
+                  <p className="text-xs text-gray-600">Satisfaction</p>
                 </div>
               </div>
 
@@ -281,6 +345,25 @@ export default function ServiceDetailPage() {
               </div>
             </div>
           )}
+
+          {/* Process Section */}
+          <div className="mb-20">
+            <h2 className="text-3xl font-display font-bold mb-8 text-center">How It Works</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {[
+                { step: '01', title: 'Book Consultation', desc: 'Share your vision and requirements with our team' },
+                { step: '02', title: 'Design Planning', desc: 'We create a custom decoration plan just for you' },
+                { step: '03', title: 'Setup & Execution', desc: 'Our team handles complete setup at your venue' },
+                { step: '04', title: 'Enjoy Your Event', desc: 'Relax and enjoy your beautifully decorated event' },
+              ].map((item) => (
+                <div key={item.step} className="text-center p-6 bg-gray-50 rounded-2xl">
+                  <span className="text-4xl font-bold text-primary/20">{item.step}</span>
+                  <h3 className="font-bold mt-2 mb-2">{item.title}</h3>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* FAQ Section */}
           <div className="bg-gray-50 rounded-3xl p-8 md:p-12">
