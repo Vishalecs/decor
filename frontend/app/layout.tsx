@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Playfair_Display, Inter, Lora } from 'next/font/google'
+import { Geist, Geist_Mono, Playfair_Display, Inter, Lora, Great_Vibes } from 'next/font/google'
 import { AuthProvider } from '@/lib/auth-context'
 import { BookingProvider } from '@/lib/booking-context'
 import './globals.css'
@@ -23,6 +23,11 @@ const loraFont = Lora({
   variable: '--font-lora',
   subsets: ['latin'],
   weight: ['400', '500', '600'],
+})
+const greatVibes = Great_Vibes({
+  variable: '--font-great-vibes',
+  subsets: ['latin'],
+  weight: ['400'],
 })
 
 export const metadata: Metadata = {
@@ -92,7 +97,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} ${interFont.variable} ${loraFont.variable} bg-background`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} ${interFont.variable} ${loraFont.variable} ${greatVibes.variable} bg-background`}
     >
       <body className="font-body antialiased bg-background text-foreground">
         <AuthProvider>

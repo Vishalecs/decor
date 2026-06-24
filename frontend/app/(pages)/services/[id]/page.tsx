@@ -3,404 +3,422 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Footer } from '@/components/footer'
-import { getServiceById, services } from '@/lib/services'
+import { getServiceById } from '@/lib/services'
 import {
   Star,
   Heart,
-  Share2,
-  ArrowLeft,
   ArrowRight,
-  Check,
   MapPin,
   Clock,
   Users,
   ChevronRight,
-  Phone,
-  MessageCircle,
-  Plus,
+  ChevronDown,
+  FileText,
+  Palette,
+  Flower2,
+  Settings2,
+  CalendarCheck,
+  ShieldCheck,
+  Award,
+  Pencil,
+  Camera,
+  Lightbulb,
+  Brush,
+  Calendar,
+  CircleHelp,
+  Building2,
+  HelpCircle,
 } from 'lucide-react'
 import { useParams } from 'next/navigation'
+import type { LucideIcon } from 'lucide-react'
+
+const NAVY = '#1a2b48'
+const PINK = '#c35064'
+
+const demoAvatars = [
+  'https://i.pravatar.cc/80?img=1',
+  'https://i.pravatar.cc/80?img=5',
+  'https://i.pravatar.cc/80?img=9',
+  'https://i.pravatar.cc/80?img=12',
+]
+
+const serviceExtras: Record<number, {
+  tagline: string
+  trustLabel: string
+  highlightBadges: { icon: React.ReactNode; label: string }[]
+  featureSubtitles: string[]
+  faqs: { q: string; a: string; icon: LucideIcon }[]
+  trustStats: { icon: React.ReactNode; value: string; label: string; sub: string }[]
+}> = {
+  1: {
+    tagline: 'Where Your Love Story Comes to Life',
+    trustLabel: 'Trusted by 300+ Couples',
+    highlightBadges: [
+      { icon: <Palette size={20} />, label: 'Personalized Theme Design' },
+      { icon: <Flower2 size={20} />, label: 'Premium Fresh Flowers' },
+      { icon: <Settings2 size={20} />, label: 'Professional Setup' },
+      { icon: <CalendarCheck size={20} />, label: 'On-time Execution' },
+      { icon: <ShieldCheck size={20} />, label: 'Hassle-free Experience' },
+    ],
+    featureSubtitles: [
+      'Unique concepts that reflect your vision',
+      'Fresh, vibrant & high-quality flowers',
+      'Elegant lighting to create the perfect mood',
+      'Complete setup and neat takedown',
+      'Smooth execution so you can enjoy your day',
+      'Beautiful backdrops for picture-perfect moments',
+    ],
+    faqs: [
+      { q: 'Can I customize the decoration design?', a: 'Absolutely! We specialize in personalized decorations. Our team will work with you to understand your vision and create a custom design that reflects your personality and style.', icon: CircleHelp },
+      { q: 'What areas do you cover?', a: 'We currently serve all areas within the city. For outside city events, please contact us for special arrangements.', icon: MapPin },
+      { q: 'How far in advance should I book?', a: 'We recommend booking at least 2–3 weeks in advance to ensure availability and allow sufficient time for planning.', icon: Calendar },
+      { q: 'Do you provide fresh flowers?', a: 'Yes, we use only premium-quality fresh flowers sourced daily to ensure freshness and vibrancy throughout your event.', icon: Flower2 },
+      { q: 'Can you decorate both indoor and outdoor venues?', a: 'Yes, our team is experienced in decorating both indoor and outdoor venues, adapting designs to suit each environment beautifully.', icon: Building2 },
+    ],
+    trustStats: [
+      { icon: <Heart size={18} />, value: '500+', label: 'Weddings Decorated', sub: 'Creating magical memories' },
+      { icon: <Award size={18} />, value: '5+', label: 'Years of Experience', sub: 'Delivering excellence' },
+      { icon: <Pencil size={18} />, value: '100%', label: 'Customization', sub: 'Designed just for you' },
+      { icon: <Clock size={18} />, value: 'On-Time', label: 'Delivery', sub: 'Always on schedule' },
+      { icon: <Star size={18} />, value: 'Happy Couples', label: '300+ 5-Star Reviews', sub: 'Trusted & loved' },
+    ],
+  },
+}
+
+const defaultExtras = (serviceName: string) => ({
+  tagline: `Professional ${serviceName} You Can Trust`,
+  trustLabel: 'Trusted by 300+ Clients',
+  highlightBadges: [
+    { icon: <Palette size={20} />, label: 'Custom Design' },
+    { icon: <Settings2 size={20} />, label: 'Professional Setup' },
+    { icon: <CalendarCheck size={20} />, label: 'On-time Execution' },
+    { icon: <ShieldCheck size={20} />, label: 'Hassle-free Experience' },
+    { icon: <Award size={20} />, label: 'Premium Quality' },
+  ],
+  featureSubtitles: [
+    'Unique concepts for your event',
+    'Premium quality materials',
+    'Professional lighting setup',
+    'Complete setup & takedown',
+    'Smooth day-of coordination',
+    'Picture-perfect backdrops',
+  ],
+  faqs: [
+    { q: 'Can I customize the decoration design?', a: 'Absolutely! Every decoration is personalized to your vision.', icon: CircleHelp },
+    { q: 'What areas do you cover?', a: 'We serve all areas within the city.', icon: MapPin },
+    { q: 'How far in advance should I book?', a: 'We recommend booking at least 2–3 weeks in advance.', icon: Calendar },
+    { q: 'Do you handle setup and takedown?', a: 'Yes, our team handles complete setup and post-event takedown.', icon: Settings2 },
+    { q: 'Is the price fixed?', a: 'Starting prices are listed; final pricing depends on customization and venue size.', icon: HelpCircle },
+  ],
+  trustStats: [
+    { icon: <Heart size={18} />, value: '500+', label: 'Events Done', sub: 'Creating magical memories' },
+    { icon: <Award size={18} />, value: '5+', label: 'Years of Experience', sub: 'Delivering excellence' },
+    { icon: <Pencil size={18} />, value: '100%', label: 'Customization', sub: 'Designed just for you' },
+    { icon: <Clock size={18} />, value: 'On-Time', label: 'Delivery', sub: 'Always on schedule' },
+    { icon: <Star size={18} />, value: 'Happy Clients', label: '4.8 Avg Rating', sub: 'Trusted & loved' },
+  ],
+})
+
+const featureIcons = [Palette, Flower2, Lightbulb, Brush, Calendar, Camera]
+
+function SectionDivider() {
+  return (
+    <div className="flex justify-center items-center gap-1.5 mb-6">
+      <div className="h-px w-8 bg-rose-200" />
+      <Heart size={10} className="text-[#c35064] fill-[#c35064]" />
+      <Heart size={7} className="text-[#c35064]/30 fill-[#c35064]/30" />
+      <div className="h-px w-8 bg-rose-200" />
+    </div>
+  )
+}
+
+function FaqItem({ q, a, icon: Icon }: { q: string; a: string; icon: LucideIcon }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border-b border-gray-100 last:border-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-4 py-5 px-2 text-left group"
+      >
+        <div className="w-11 h-11 rounded-full bg-[#c35064]/10 flex items-center justify-center flex-shrink-0 text-[#c35064]">
+          <Icon size={19} />
+        </div>
+        <span className="flex-1 text-center text-base sm:text-lg font-semibold text-gray-800 group-hover:text-[#c35064] transition-colors">
+          {q}
+        </span>
+        <ChevronDown
+          size={20}
+          className={`text-gray-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+      {open && (
+        <p className="pb-6 px-2 sm:px-8 text-center text-base text-gray-500 leading-relaxed max-w-2xl mx-auto">
+          {a}
+        </p>
+      )}
+    </div>
+  )
+}
 
 export default function ServiceDetailPage() {
   const params = useParams()
   const serviceId = parseInt(params.id as string)
   const service = getServiceById(serviceId)
-  const [selectedImage, setSelectedImage] = useState(0)
-  const [isFavorite, setIsFavorite] = useState(false)
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-display font-bold mb-4">Service not found</h1>
-            <p className="text-gray-600 mb-8">The service you&apos;re looking for doesn&apos;t exist.</p>
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:scale-105 transition-transform"
-            >
-              <ArrowLeft size={18} />
-              Back to Services
-            </Link>
-          </div>
+      <div className="min-h-screen bg-[#fcf9f9]">
+        <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 text-center">
+          <h1 className="text-3xl font-bold mb-4">Service not found</h1>
+          <Link href="/services" className="inline-flex items-center gap-2 px-6 py-3 bg-[#c35064] text-white rounded-full font-medium">
+            Back to Services
+          </Link>
         </div>
         <Footer />
       </div>
     )
   }
 
-  const IconComponent = service.icon
-  const relatedServices = services.filter((s: any) => s.category === service.category && s.id !== service.id).slice(0, 3)
+  const extras = serviceExtras[service.id] ?? defaultExtras(service.name)
+  const nameParts = service.name.split(' ')
+  const nameFirst = nameParts[0]
+  const nameRest = nameParts.slice(1).join(' ')
+  const heroImage = service.gallery[0] || service.image
 
   return (
-    <div className="min-h-screen bg-white">
-      <main className="pt-24 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-8 text-sm text-gray-600">
-            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-            <ChevronRight size={16} />
-            <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
-            <ChevronRight size={16} />
-            <span className="text-foreground font-medium">{service.name}</span>
-          </div>
+    <div className="min-h-screen bg-[#fcf9f9]">
+      <main>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-            {/* Left Column - Images */}
-            <div>
-              {/* Main Image */}
-              <div className="relative aspect-square rounded-3xl overflow-hidden mb-4 bg-gray-100 group">
-                <img
-                  src={service.gallery[selectedImage]}
-                  alt={service.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <button
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                  aria-label="Add to favorites"
-                >
-                  <Heart
-                    size={24}
-                    className={isFavorite ? 'fill-primary text-primary' : 'text-gray-600'}
-                  />
-                </button>
+        {/* ── HERO ── */}
+        <section className="relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[520px] lg:min-h-[580px]">
+
+            {/* Left content */}
+            <div className="relative z-10 px-5 sm:px-8 lg:px-12 xl:px-16 pt-3 sm:pt-4 pb-36 lg:pb-28">
+              {/* Pink watercolor splash */}
+              <div
+                className="absolute top-0 right-0 w-72 h-72 pointer-events-none opacity-40"
+                style={{
+                  background: 'radial-gradient(circle at 70% 30%, rgba(232,160,180,0.55) 0%, rgba(252,233,240,0.3) 40%, transparent 70%)',
+                }}
+              />
+
+              {/* Breadcrumb */}
+              <div className="flex items-center gap-2 mb-4 text-sm text-gray-400 relative">
+                <Link href="/" className="hover:text-[#c35064] transition-colors">Home</Link>
+                <ChevronRight size={14} />
+                <Link href="/services" className="hover:text-[#c35064] transition-colors">Services</Link>
+                <ChevronRight size={14} />
+                <span className="text-gray-600 font-medium">{service.name}</span>
               </div>
 
-              {/* Thumbnail Gallery */}
-              <div className="grid grid-cols-4 gap-3">
-                {service.gallery.map((image: string, index: number) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg overflow-hidden transition-all ${
-                      selectedImage === index
-                        ? 'ring-2 ring-primary ring-offset-2'
-                        : 'ring-1 ring-gray-200 hover:ring-gray-300'
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${service.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
+              <p
+                className="text-[#c35064] text-2xl sm:text-3xl mb-2 relative"
+                style={{ fontFamily: 'var(--font-great-vibes), cursive' }}
+              >
+                {extras.tagline}
+              </p>
 
-            {/* Right Column - Details */}
-            <div>
-              {/* Header */}
-              <div className="mb-8">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center">
-                        <IconComponent size={28} className="text-white" />
-                      </div>
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary uppercase tracking-widest">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#f5b942]" />
-                        {service.category}
-                      </span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-                      {service.name}
-                    </h1>
-                  </div>
-                  <button
-                    className="p-3 hover:bg-gray-100 rounded-full transition-colors"
-                    aria-label="Share"
-                  >
-                    <Share2 size={24} className="text-gray-600" />
-                  </button>
+              <h1
+                className="font-bold leading-[1.05] mb-5 relative"
+                style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', fontFamily: 'var(--font-playfair-display), Georgia, serif' }}
+              >
+                <span style={{ color: NAVY }}>{nameFirst}</span>
+                {nameRest && (
+                  <>
+                    <br />
+                    <span style={{ color: PINK }}>{nameRest}</span>
+                  </>
+                )}
+              </h1>
+
+              <p className="text-gray-500 leading-relaxed mb-5 text-[15px] max-w-[480px] relative">
+                {service.longDescription}
+              </p>
+
+              {/* Rating + avatars */}
+              <div className="flex flex-wrap items-center gap-3 mb-6 relative">
+                <div className="flex items-center gap-1.5">
+                  <Star size={18} className="fill-amber-400 text-amber-400" />
+                  <span className="font-bold text-gray-800">{service.rating}</span>
+                  <span className="text-gray-400 text-sm">({service.reviews} reviews)</span>
                 </div>
-
-                {/* Rating */}
-                <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {demoAvatars.map((src, i) => (
+                      <img
                         key={i}
-                        size={18}
-                        className={
-                          i < Math.floor(service.rating)
-                            ? 'fill-primary text-primary'
-                            : 'text-gray-300'
-                        }
+                        src={src}
+                        alt=""
+                        className="w-8 h-8 rounded-full border-2 border-white object-cover"
                       />
                     ))}
                   </div>
-                  <span className="text-lg font-bold">{service.rating}</span>
-                  <span className="text-gray-600">({service.reviews} reviews)</span>
+                  <span className="text-sm text-gray-500">{extras.trustLabel}</span>
                 </div>
               </div>
 
-              {/* Description */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-display font-bold mb-4">About This Service</h2>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {service.longDescription}
-                </p>
-              </div>
-
-              {/* Why Choose Us */}
-              <div className="mb-8 p-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/10">
-                <h3 className="text-xl font-display font-bold mb-4">Why Choose Our {service.name}?</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  We bring years of expertise and creativity to every event. Our dedicated team ensures 
-                  flawless execution, using only premium materials and innovative designs. With hundreds 
-                  of successful events and satisfied clients, we guarantee an experience that exceeds your expectations.
-                </p>
-              </div>
-
-              {/* Key Details */}
-              <div className="flex items-stretch justify-between mb-8 p-6 bg-gray-50 rounded-2xl divide-x divide-gray-200">
-                <div className="flex-1 flex flex-col items-center text-center px-2">
-                  <Clock size={22} className="text-primary mb-2" />
-                  <p className="text-[11px] uppercase tracking-wide text-gray-500 mb-1">Duration</p>
-                  <p className="font-bold text-sm">{service.duration}</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center text-center px-2">
-                  <Users size={22} className="text-primary mb-2" />
-                  <p className="text-[11px] uppercase tracking-wide text-gray-500 mb-1">Team Size</p>
-                  <p className="font-bold text-sm">{service.teamSize}</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center text-center px-2">
-                  <MapPin size={22} className="text-primary mb-2" />
-                  <p className="text-[11px] uppercase tracking-wide text-gray-500 mb-1">Coverage</p>
-                  <p className="font-bold Thomasm-bold text-sm">Within City</p>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="mb-8">
-                <h3 className="text-xl font-display font-bold mb-4">Service Highlights</h3>
-                <ul className="space-y-3">
-                  {service.features.map((feature: string, index: number) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check size={12} className="text-primary" />
-                      </span>
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Service Details */}
-              <div className="mb-8 p-6 bg-gray-50 rounded-2xl">
-                <h3 className="text-xl font-display font-bold mb-4">Service Details</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3">
-                    <Clock size={18} className="text-primary" />
-                    <div>
-                      <p className="text-sm text-gray-500">Setup Time</p>
-                      <p className="font-semibold">{service.duration}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Users size={18} className="text-primary" />
-                    <div>
-                      <p className="text-sm text-gray-500">Team Members</p>
-                      <p className="font-semibold">{service.teamSize}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MapPin size={18} className="text-primary" />
-                    <div>
-                      <p className="text-sm text-gray-500">Service Area</p>
-                      <p className="font-semibold">Within City</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Star size={18} className="text-primary" />
-                    <div>
-                      <p className="text-sm text-gray-500">Rating</p>
-                      <p className="font-semibold">{service.rating} / 5</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Price & CTA */}
-              <div className="rounded-2xl bg-gradient-to-r from-primary via-[#f5b942] to-secondary p-[1.5px] mb-6">
-                <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6">
-                  <p className="text-sm text-gray-600 mb-2">Starting Price</p>
-                  <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
-                    <div>
-                      <span className="text-4xl font-bold text-primary">₹{service.price.toLocaleString()}</span>
-                      <span className="text-gray-600 ml-2">onwards</span>
-                    </div>
-                    <p className="text-xs text-gray-600">*Price may vary based on customization</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <Link
-                      href={`/booking?service=${service.id}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-white font-bold rounded-full hover:scale-105 transition-transform text-center"
-                    >
-                      Book Now
-                      <ArrowRight size={18} />
-                    </Link>
-                    <button className="px-6 py-4 border-2 border-primary text-primary font-bold rounded-full hover:bg-primary/5 transition-colors">
-                      Get Quote
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Trust Badges */}
-              <div className="mb-6 grid grid-cols-3 gap-3">
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">500+</p>
-                  <p className="text-xs text-gray-600">Events Done</p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">4.9</p>
-                  <p className="text-xs text-gray-600">Avg Rating</p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">100%</p>
-                  <p className="text-xs text-gray-600">Satisfaction</p>
-                </div>
-              </div>
-
-              {/* Contact Info */}
-              <div className="bg-gray-50 rounded-2xl p-6">
-                <p className="text-sm text-gray-600 mb-4">Have questions? Reach out to our team</p>
-                <div className="flex gap-4">
-                  <a
-                    href="tel:+919876543210"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-gray-200 rounded-lg text-center font-semibold hover:border-primary transition-colors"
+              {/* Info cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-7 relative max-w-[520px]">
+                {[
+                  { icon: Clock, label: 'Duration', value: service.duration },
+                  { icon: Users, label: 'Team Size', value: service.teamSize },
+                  { icon: MapPin, label: 'Coverage', value: 'Within City' },
+                ].map(({ icon: Icon, label, value }) => (
+                  <div
+                    key={label}
+                    className="flex items-center gap-2.5 bg-white border border-gray-200 rounded-xl px-3.5 py-3 shadow-sm"
                   >
-                    <Phone size={16} />
-                    Call Us
-                  </a>
-                  <a
-                    href="https://wa.me/919876543210"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-gray-200 rounded-lg text-center font-semibold hover:border-primary transition-colors"
-                  >
-                    <MessageCircle size={16} />
-                    WhatsApp
-                  </a>
+                    <Icon size={18} className="text-[#c35064] flex-shrink-0" />
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">{label}</p>
+                      <p className="text-xs font-bold text-gray-800">{value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mb-2 relative">
+                <Link
+                  href={`/booking?service=${service.id}`}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c35064] text-white font-bold rounded-full text-sm hover:bg-[#a84258] transition-colors shadow-md shadow-[#c35064]/20"
+                >
+                  Book Now <ArrowRight size={16} />
+                </Link>
+                <button className="inline-flex items-center gap-2 px-6 py-3.5 border-2 border-[#c35064] text-[#c35064] font-semibold rounded-full text-sm hover:bg-[#c35064]/5 transition-colors bg-white">
+                  <FileText size={16} /> Get Quote
+                </button>
+              </div>
+              <p className="text-xs text-gray-400 relative">*Price may vary based on customization</p>
+            </div>
+
+            {/* Right — hero image with framed, layered look */}
+            <div className="relative hidden lg:flex items-center justify-center min-h-[580px] pr-10 xl:pr-16 py-10">
+              {/* Soft blurred color glow behind the frame */}
+              <div
+                className="absolute right-6 top-1/2 -translate-y-1/2 w-[85%] aspect-[4/5] rounded-[2.5rem] pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at 50% 40%, rgba(195,80,100,0.25) 0%, transparent 70%)',
+                  filter: 'blur(30px)',
+                }}
+              />
+
+              {/* Gold accent ring, offset behind the image */}
+              <div
+                className="absolute right-2 top-8 w-full max-w-[460px] aspect-[4/5] rounded-[2rem] border-2 pointer-events-none"
+                style={{ borderColor: 'rgba(201,147,42,0.35)' }}
+              />
+
+              {/* Main framed image */}
+              <div className="relative w-full max-w-[460px] aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20 ring-1 ring-white/40">
+                <img
+                  src={heroImage}
+                  alt={service.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Subtle bottom gradient for depth, no text needed */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(26,43,72,0.25) 100%)',
+                  }}
+                />
+                {/* Fine inner border for a polished edge */}
+                <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/30 pointer-events-none" />
+              </div>
+
+              {/* Small floating accent badge */}
+              <div className="absolute left-0 bottom-16 hidden xl:flex items-center gap-2 bg-white rounded-2xl shadow-lg shadow-black/10 px-4 py-3 border border-gray-100">
+                <Heart size={16} className="text-[#c35064] fill-[#c35064]" />
+                <div>
+                  <p className="text-xs font-bold text-gray-800 leading-none">{service.rating} Rating</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">{service.reviews} reviews</p>
                 </div>
               </div>
             </div>
+
+            {/* Mobile hero image */}
+            <div className="relative lg:hidden h-64 sm:h-80 mx-5 rounded-2xl overflow-hidden mb-4 shadow-lg shadow-black/10 ring-1 ring-white/40">
+              <img src={heroImage} alt={service.name} className="w-full h-full object-cover" />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(26,43,72,0.3) 100%)' }}
+              />
+            </div>
           </div>
 
-          {/* Related Services */}
-          {relatedServices.length > 0 && (
-            <div className="mb-20">
-              <h2 className="text-3xl font-display font-bold mb-8">Related Services</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {relatedServices.map((relatedService: any) => {
-                  const RelatedIcon = relatedService.icon
+          {/* Feature bar */}
+          <div className="absolute bottom-0 left-0 right-0 z-20 px-4 sm:px-6 lg:px-8 pb-4 lg:pb-6">
+            <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 px-4 sm:px-6 py-4 lg:py-5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-2">
+                {extras.highlightBadges.map((badge, i) => (
+                  <div key={i} className="flex flex-col items-center gap-2 text-center">
+                    <div className="w-10 h-10 rounded-full bg-[#c35064]/10 flex items-center justify-center text-[#c35064]">
+                      {badge.icon}
+                    </div>
+                    <span className="text-[11px] sm:text-xs font-medium text-gray-600 leading-tight">
+                      {badge.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHAT'S INCLUDED + FAQ (stacked, full width) ── */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+          <div className="flex flex-col gap-6 lg:gap-8">
+
+            {/* What's Included */}
+            <div className="w-full bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm">
+              <h2
+                className="text-xl sm:text-2xl font-bold text-center mb-1"
+                style={{ color: NAVY, fontFamily: 'var(--font-playfair-display), Georgia, serif' }}
+              >
+                What&apos;s Included
+              </h2>
+              <SectionDivider />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {service.features.map((feature, index) => {
+                  const FeatureIcon = featureIcons[index] ?? Palette
                   return (
-                    <Link href={`/services/${relatedService.id}`} key={relatedService.id}>
-                      <div className="group cursor-pointer transition-transform duration-300 hover:-translate-y-1">
-                        <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-gray-100">
-                          <img
-                            src={relatedService.image}
-                            alt={relatedService.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                          <div className="absolute top-3 right-3 w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                            <RelatedIcon size={20} className="text-white" />
-                          </div>
-                        </div>
-                        <h3 className="font-display font-bold text-lg mb-2 group-hover:text-primary transition-colors">
-                          {relatedService.name}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">{relatedService.description}</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-primary font-bold">₹{relatedService.price.toLocaleString()}</span>
-                          <ChevronRight size={18} className="text-primary group-hover:translate-x-1 transition-transform" />
-                        </div>
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-full bg-[#c35064]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <FeatureIcon size={16} className="text-[#c35064]" />
                       </div>
-                    </Link>
+                      <div>
+                        <p className="text-sm font-bold text-gray-800">{feature}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
+                          {extras.featureSubtitles[index] ?? ''}
+                        </p>
+                      </div>
+                    </div>
                   )
                 })}
               </div>
             </div>
-          )}
 
-          {/* Process Section */}
-          <div className="mb-20">
-            <h2 className="text-3xl font-display font-bold mb-8 text-center">How It Works</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                { step: '01', title: 'Book Consultation', desc: 'Share your vision and requirements with our team' },
-                { step: '02', title: 'Design Planning', desc: 'We create a custom decoration plan just for you' },
-                { step: '03', title: 'Setup & Execution', desc: 'Our team handles complete setup at your venue' },
-                { step: '04', title: 'Enjoy Your Event', desc: 'Relax and enjoy your beautifully decorated event' },
-              ].map((item) => (
-                <div key={item.step} className="text-center p-6 bg-gray-50 rounded-2xl">
-                  <span className="text-4xl font-bold text-primary/20">{item.step}</span>
-                  <h3 className="font-bold mt-2 mb-2">{item.title}</h3>
-                  <p className="text-sm text-gray-600">{item.desc}</p>
-                </div>
-              ))}
+            {/* FAQ */}
+            <div className="w-full bg-white border border-gray-100 rounded-2xl p-6 sm:p-10 shadow-sm">
+              <h2
+                className="text-2xl sm:text-3xl font-bold text-center mb-1"
+                style={{ color: NAVY, fontFamily: 'var(--font-playfair-display), Georgia, serif' }}
+              >
+                Frequently Asked Questions
+              </h2>
+              <SectionDivider />
+              <div className="flex flex-col max-w-3xl mx-auto">
+                {extras.faqs.map((faq, i) => (
+                  <FaqItem key={i} q={faq.q} a={faq.a} icon={faq.icon} />
+                ))}
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* FAQ Section */}
-          <div className="bg-gray-50 rounded-3xl p-8 md:p-12">
-            <h2 className="text-3xl font-display font-bold mb-8">Frequently Asked Questions</h2>
-            <div className="space-y-4">
-              <details className="group border-b-2 border-gray-200 pb-4">
-                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-lg [&::-webkit-details-marker]:hidden">
-                  Can I customize the decoration design?
-                  <Plus size={20} className="text-primary flex-shrink-0 group-open:rotate-45 transition-transform" />
-                </summary>
-                <p className="text-gray-600 mt-4">
-                  Absolutely! We specialize in personalized decorations. Our team will work with you to understand your vision and create a custom design.
-                </p>
-              </details>
-              <details className="group border-b-2 border-gray-200 pb-4">
-                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-lg [&::-webkit-details-marker]:hidden">
-                  What areas do you cover?
-                  <Plus size={20} className="text-primary flex-shrink-0 group-open:rotate-45 transition-transform" />
-                </summary>
-                <p className="text-gray-600 mt-4">
-                  We currently serve all areas within the city. For outside city events, please contact us for special arrangements.
-                </p>
-              </details>
-              <details className="group border-b-2 border-gray-200 pb-4">
-                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-lg [&::-webkit-details-marker]:hidden">
-                  How far in advance should I book?
-                  <Plus size={20} className="text-primary flex-shrink-0 group-open:rotate-45 transition-transform" />
-                </summary>
-                <p className="text-gray-600 mt-4">
-                  We recommend booking at least 2-3 weeks in advance to ensure availability and allow time for planning.
-                </p>
-              </details>
-            </div>
-          </div>
-        </div>
       </main>
-
       <Footer />
     </div>
   )
